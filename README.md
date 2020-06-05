@@ -40,13 +40,23 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+++Middleware, Jsonconfig, and routers
+
 - [ ] Describe Middleware?
+
+++ Middleware is something that adds functionality and restrictions to requests
 
 - [ ] Describe a Resource?
 
+++something that is used to carry out backend functions
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+++a success messege! and a nice code.
+
 - [ ] How can we partition our application into sub-applications?
+
+++we can do this using routers
 
 ## Minimum Viable Product
 

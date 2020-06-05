@@ -36,6 +36,9 @@ function logger(req, res, next) {
   //projects by id
   server.get("/api/projects/:id", (req, res) => {
       const id = req.params.id;
+      if (!id) {
+          res.status(400).json({ message: "This ID doesnt exist"})
+      } else {
       projDB.get(id)
       .then(projects => {
           res.status(200).json({projects})
@@ -44,11 +47,16 @@ function logger(req, res, next) {
           console.log(error);
           res.status(500).json({error})
       })
+    }
   })
+
 
   //actions from specific project
   server.get('/api/projects/:id/actions', (req, res) => {
       const id = req.params.id;
+      if (!id) {
+        res.status(400).json({ error: "Please provide an id to get actions" })
+      } else {
       actDB.get()
       .then(actions => {
           res.status(200).json(actions)
@@ -57,11 +65,15 @@ function logger(req, res, next) {
         console.log(error);
         res.status(500).json({error})
     })
+    }
   })
 
   //new project
   server.post("/api/projects", (req, res) => {
     const body = req.body;
+    if (!body) {
+        res.status(400).json({ error: "Please provide the correct text" })
+    } else {
     projDB.insert(body)
     .then(newProject => {
         res.status(201).json({newProject})
@@ -70,12 +82,16 @@ function logger(req, res, next) {
         console.log(error);
         res.status(500).json({error})
     })
+    }
 });
 
 //new action to specific project
 server.post("/api/projects/:id/actions", (req, res) => {
     const body = req.body;
     body.project_id = req.params.id;
+    if (!body) {
+        res.status(400).json({ error: "Please provide info to post!" })
+    } else {
     actDB.insert(body)
     .then(newAction => {
         res.status(201).json({newAction})
@@ -84,6 +100,7 @@ server.post("/api/projects/:id/actions", (req, res) => {
         console.log(error);
         res.status(500).json({error})
     })
+}
 })
 
 //updated an action in a project
@@ -91,6 +108,9 @@ server.put("/api/projects/:projectid/actions/:actionid", (req, res) => {
     const changes = req.body;
     changes.project_id = req.params.projectid;
     const actionid = req.params.actionid;
+    if (!actionid) {
+        res.status(400).json({ error: "Please provide an id!" })
+    } else {
     actDB.update(actionid, changes)
     .then(updatedAction => {
         res.status(200).json(updatedAction)
@@ -99,12 +119,16 @@ server.put("/api/projects/:projectid/actions/:actionid", (req, res) => {
         console.log(error);
         res.status(500).json({error})
     })
+}
 })
 
 // updating a project
 server.put("/api/projects/:id", (req, res) => {
     const changes = req.body;
     const id = req.params.id;
+    if (!id) {
+        res.status(400).json({ error: "Please provide an id!" })
+    } else {
     projDB.update(id, changes)
     .then(updatedProject => {
         res.status(200).json({updatedProject})
@@ -113,11 +137,15 @@ server.put("/api/projects/:id", (req, res) => {
         console.log(error);
         res.status(500).json({error})
     })
+}
 })
 
 //delete project
 server.delete("/api/projects/:id", (req, res) => {
     const id = req.params.id;
+    if (!id) {
+        res.status(400).json({ error: "Please provide an id!" })
+    } else {
     projDB.remove(id)
     .then(removedProject => {
         res.status(204).json({removedProject})
@@ -126,12 +154,15 @@ server.delete("/api/projects/:id", (req, res) => {
         console.log(error);
         res.status(500).json({error})
     })
-    
+}
 })
 
 //delete action
 server.delete("/api/projects/:id/actions/:id", (req, res) => {
     const id = req.params.id
+    if (!id) {
+        res.status(400).json({ error: "Please provide an id!" })
+    } else {
     actDB.remove(id)
     .then(removedAction => {
         res.status(204).json({removedAction})
@@ -140,6 +171,7 @@ server.delete("/api/projects/:id/actions/:id", (req, res) => {
         console.log(error);
         res.status(500).json({error})
     })
+}
 })
 
 
